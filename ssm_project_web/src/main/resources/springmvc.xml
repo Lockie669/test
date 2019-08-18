@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans.xsd
+			    http://www.springframework.org/schema/context
+			    http://www.springframework.org/schema/context/spring-context.xsd
+			    http://www.springframework.org/schema/aop
+			    http://www.springframework.org/schema/aop/spring-aop.xsd
+			    http://www.springframework.org/schema/tx
+			    http://www.springframework.org/schema/tx/spring-tx.xsd
+			    http://www.springframework.org/schema/mvc
+			    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--配置扫描controller-->
+    <context:component-scan base-package="com.jack.controller"/>
+
+    <!--开启切面注解支持-->
+    <aop:aspectj-autoproxy/>
+
+    <!-- 开启MVC注解支持 -->
+    <mvc:annotation-driven conversion-service="myCustomerConvrtor"  />
+
+    <!-- 配置视图 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--过滤静态资源-->
+    <mvc:default-servlet-handler/>
+
+    <!--配置日期类型转换类-->
+    <bean id="myCustomerConvrtor" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <!--<property name="converters" value="com.jack.myCustomerConvrtor"/>-->
+        <property name="converters">
+            <set>
+                <bean class="com.jack.myCustomerConvrtor"></bean>
+            </set>
+        </property>
+    </bean>
+
+</beans>
